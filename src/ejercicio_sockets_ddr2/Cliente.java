@@ -5,37 +5,46 @@ import java.net.*;
 import java.util.Scanner;
 
 /**
- * Clase que representa un cliente de chat que se conecta al servidor.
+ * Clase que representa un cliente de chat que se conecta a un servidor.
  */
 public class Cliente {
-    private static final String SERVER_IP = "Dirección_IP_pública_o_nombre_de_host"; // Reemplaza con la dirección IP pública o nombre de host válido
-    private static final int SERVER_PORT = 12345;
-
     /**
-     * Método principal que inicia el cliente y establece la conexión con el servidor.
+     * Método principal que inicia la aplicación del cliente.
      *
-     * @param args Los argumentos de la línea de comandos (no se utilizan en este ejemplo).
+     * @param args Argumentos de línea de comandos (no se utilizan en este caso).
      */
     public static void main(String[] args) {
-        try (Socket socket = new Socket(SERVER_IP, SERVER_PORT);
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-
-            BufferedReader consoleIn = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            // Pedir al usuario que ingrese la dirección IP del servidor
             Scanner scanner = new Scanner(System.in);
+            System.out.print("Ingrese la dirección IP del servidor: ");
+            String serverIP = scanner.nextLine();
 
-            System.out.print("Introduce tu nombre de usuario: ");
-            String username = scanner.nextLine();
-            out.println(username);
+            Socket clientSocket = new Socket(serverIP, 1234);
+            System.out.println("Conectado al servidor: " + clientSocket);
 
-            String message;
+            BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            PrintWriter output = new PrintWriter(clientSocket.getOutputStream(), true);
+
+            // Leer el mensaje de bienvenida del servidor
+            String welcomeMessage = input.readLine();
+            System.out.println(welcomeMessage);
+
+            // Pedir al usuario que ingrese su nombre de usuario
+            BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("Ingrese su nombre de usuario: ");
+            String username = userInput.readLine();
+            output.println(username);
+
+            // Crear un hilo para recibir mensajes del servidor
+            Thread serverReaderThread = new Thread(new ServerReader(input));
+            serverReaderThread.start();
+
+            // Interacción con el servidor
+            String userMessage;
             while (true) {
-                System.out.print("Mensaje: ");
-                message = consoleIn.readLine();
-                out.println(message);
-                if (message.equalsIgnoreCase("chao")) {
-                    break;
-                }
+                userMessage = userInput.readLine();
+                output.println(userMessage); // Enviar el mensaje al servidor
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,3 +52,30 @@ public class Cliente {
     }
 }
 
+/**
+ * Clase que representa un hilo para leer y mostrar mensajes del servidor.
+ */
+class ServerReader implements Runnable {
+    private BufferedReader input;
+
+    /**
+     * Constructor para crear un hilo ServerReader.
+     *
+     * @param input BufferedReader utilizado para leer mensajes del servidor.
+     */
+    public ServerReader(BufferedReader input) {
+        this.input = input;
+    }
+
+    @Override
+    public void run() {
+        try {
+            String message;
+            while ((message = input.readLine()) != null) {
+                System.out.println(message);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

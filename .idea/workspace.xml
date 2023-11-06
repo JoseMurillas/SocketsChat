@@ -4,17 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43e4ba1b-3e7e-49e0-aa73-cd9aa6782413" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SocketsEjercicios.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ejercicio_sockets_ddr1/Cliente.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ejercicio_sockets_ddr1/Servidor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ejercicio_sockets_ddr2/Cliente.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ejercicio_sockets_ddr2/Servidor.java" afterDir="false" />
+    <list default="true" id="43e4ba1b-3e7e-49e0-aa73-cd9aa6782413" name="Changes" comment="SERVIDOR Y CLIENTE">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ejercicio_sockets_ddr2/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ejercicio_sockets_ddr2/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ejercicio_sockets_ddr2/Servidor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ejercicio_sockets_ddr2/Servidor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +37,8 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "jdk.selected.JAVA_MODULE": "openjdk-19"
+    "jdk.selected.JAVA_MODULE": "openjdk-19",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -54,22 +48,8 @@
       <recent name="C:\Users\alejo\eclipse-workspace\SocketsEjercicios\ejercicio1" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ejercicio_sockets_ddr2.Cliente">
-    <configuration name="Cliente" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="ejercicio_sockets_ddr1.Cliente" />
-      <module name="SocketsEjercicios" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Servidor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="ejercicio_sockets_ddr1.Servidor" />
-      <module name="SocketsEjercicios" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ejercicio_sockets_ddr2.Cliente" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.Cliente (2)">
+    <configuration name="Cliente (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ejercicio_sockets_ddr2.Cliente" />
       <module name="SocketsEjercicios" />
       <extension name="coverage">
@@ -82,7 +62,46 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ejercicio_sockets_ddr2.Servidor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="Cliente (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ejercicio_sockets_ddr2.Cliente" />
+      <module name="SocketsEjercicios" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ejercicio_sockets_ddr2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Cliente" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ejercicio_sockets_ddr2.Cliente" />
+      <module name="SocketsEjercicios" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ejercicio_sockets_ddr2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Servidor (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ejercicio_sockets_ddr2.Servidor" />
+      <module name="SocketsEjercicios" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ejercicio_sockets_ddr2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Servidor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ejercicio_sockets_ddr2.Servidor" />
       <module name="SocketsEjercicios" />
       <extension name="coverage">
@@ -97,10 +116,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ejercicio_sockets_ddr2.Cliente" />
-        <item itemvalue="Application.ejercicio_sockets_ddr2.Servidor" />
-        <item itemvalue="Application.Cliente" />
+        <item itemvalue="Application.Cliente (2)" />
+        <item itemvalue="Application.Servidor (2)" />
+        <item itemvalue="Application.Cliente (1)" />
         <item itemvalue="Application.Servidor" />
+        <item itemvalue="Application.Cliente" />
       </list>
     </recent_temporary>
   </component>
@@ -113,6 +133,14 @@
       <option name="presentableId" value="Default" />
       <updated>1699050072866</updated>
     </task>
+    <task id="LOCAL-00001" summary="SERVIDOR Y CLIENTE">
+      <created>1699054912643</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1699054912643</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -125,5 +153,19 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="SERVIDOR Y CLIENTE" />
+    <option name="LAST_COMMIT_MESSAGE" value="SERVIDOR Y CLIENTE" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.net.UnknownHostException" package="java.net" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -2,29 +2,34 @@ package ejercicio_sockets_ddr2;
 
 import java.io.*;
 import java.net.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Clase que representa el servidor de chat que acepta conexiones de clientes.
+ * Clase que representa el servidor de chat.
  */
 public class Servidor {
-    private static final int PORT = 12345;
-    private static List<Socket> clientSockets = new ArrayList<>();
-    private static Map<Socket, String> connectedClients = new HashMap<>();
+    static List<ClienteHandler> clientes = new ArrayList<>();
 
     /**
-     * Método principal que inicia el servidor y acepta conexiones de clientes.
+     * Método principal para iniciar el servidor y manejar conexiones de clientes.
      *
-     * @param args Los argumentos de la línea de comandos (no se utilizan en este ejemplo).
+     * @param args Argumentos de línea de comandos (no se utilizan en este caso).
      */
     public static void main(String[] args) {
-        try (ServerSocket serverSocket = new ServerSocket(PORT, 0, InetAddress.getByName("0.0.0.0"))) {
-            System.out.println("Servidor en línea. Esperando conexiones...");
+        try {
+            ServerSocket serverSocket = new ServerSocket(1234);
+            System.out.println("Servidor iniciado. Esperando conexiones...");
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                clientSockets.add(clientSocket);
-                new Thread(new ClientHandler(clientSocket)).start();
+                System.out.println("Cliente conectado: " + clientSocket);
+
+                // Crea un nuevo hilo para manejar la comunicación con el cliente
+                ClienteHandler clienteHandler = new ClienteHandler(clientSocket);
+                clientes.add(clienteHandler);
+                Thread thread = new Thread(clienteHandler);
+                thread.start();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,68 +37,79 @@ public class Servidor {
     }
 
     /**
-     * Clase interna que maneja la comunicación con un cliente específico.
+     * Método para enviar un mensaje a todos los clientes excepto al remitente.
+     *
+     * @param message Mensaje a transmitir.
+     * @param sender  Cliente que envía el mensaje.
      */
-    private static class ClientHandler implements Runnable {
-        private Socket clientSocket;
-        private PrintWriter out;
-        private BufferedReader in;
-        private String username;
-
-        public ClientHandler(Socket socket) {
-            this.clientSocket = socket;
-        }
-
-        @Override
-        public void run() {
-            try {
-                out = new PrintWriter(clientSocket.getOutputStream(), true);
-                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-                out.println("Bienvenido al chat. Por favor, introduce tu nombre de usuario:");
-                username = in.readLine();
-                connectedClients.put(clientSocket, username);
-                broadcast(username + " se ha unido al chat.");
-
-                String message;
-                while ((message = in.readLine()) != null) {
-                    if (message.equalsIgnoreCase("chao")) {
-                        break;
-                    }
-                    broadcast(username + ": " + message);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    clientSockets.remove(clientSocket);
-                    connectedClients.remove(clientSocket);
-                    broadcast(username + " ha abandonado el chat.");
-                    clientSocket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        /**
-         * Método para enviar un mensaje a todos los clientes conectados.
-         *
-         * @param message El mensaje a enviar.
-         */
-        private void broadcast(String message) {
-            for (Socket socket : clientSockets) {
-                if (socket != clientSocket) {
-                    try {
-                        PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
-                        socketOut.println(message);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+    public static void broadcastMessage(String message, ClienteHandler sender) {
+        for (ClienteHandler cliente : clientes) {
+            if (cliente != sender) {
+                cliente.sendMessage(sender.getUsername() + ": " + message);
             }
         }
     }
 }
 
+/**
+ * Clase que representa un manejador de cliente que se ejecuta en un hilo separado.
+ */
+class ClienteHandler implements Runnable {
+    private Socket clientSocket;
+    private BufferedReader input;
+    private PrintWriter output;
+    private String username;
 
+    /**
+     * Constructor para crear un nuevo manejador de cliente.
+     *
+     * @param clientSocket Socket del cliente.
+     */
+    public ClienteHandler(Socket clientSocket) {
+        try {
+            this.clientSocket = clientSocket;
+            input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            output = new PrintWriter(clientSocket.getOutputStream(), true);
+            output.println("Ingrese su nombre de usuario:");
+            this.username = input.readLine();
+            output.println("Bienvenido al chat, " + this.username + "!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Obtiene el nombre de usuario del cliente.
+     *
+     * @return Nombre de usuario.
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Envía un mensaje al cliente.
+     *
+     * @param message Mensaje a enviar.
+     */
+    public void sendMessage(String message) {
+        output.println(message);
+    }
+
+    @Override
+    public void run() {
+        try {
+            String message;
+            while ((message = input.readLine()) != null) {
+                Servidor.broadcastMessage(message, this);
+            }
+
+            System.out.println("Cliente desconectado: " + clientSocket);
+            output.println("El usuario ha abandonado el chat.");
+            Servidor.clientes.remove(this);
+            clientSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
